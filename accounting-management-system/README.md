@@ -47,16 +47,16 @@ Designed and developed the application as part of my Business Information System
 ![Login](screenshots/login.png)
 
 ### Dashboard
-![Dashboard](screenshots/dashboard 1.png)
+![Dashboard](screenshots/dashboard_1.png)
 
-![Dashboard](screenshots/dashboard 2.png)
+![Dashboard](screenshots/dashboard_2.png)
 
-![Dashboard](screenshots/dashboard 3.png)
+![Dashboard](screenshots/dashboard_3.png)
 ### Client Management
-![Clients](screenshots/client list.png)
+![Clients](screenshots/client_list.png)
 
 ![Clients](screenshots/client_form.png)
 ### Suplier Management
-![Suplier](screenshots/suplier list.png)
+![Suplier](screenshots/suplier_list.png)
 ### Register  
 ![Register](screenshots/register.png)
