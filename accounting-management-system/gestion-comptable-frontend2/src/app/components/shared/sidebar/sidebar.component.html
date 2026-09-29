@@ -1,0 +1,51 @@
+<div class="sidebar" [class.collapsed]="isCollapsed">
+
+  <div class="sidebar-header">
+
+    <div class="logo">
+      <div class="logo-img-box">
+       <img src="/comptax-logo.png" alt="ComptaX Logo">
+      </div>
+
+      <span *ngIf="!isCollapsed">
+        Compta<span class="logo-x">X</span>
+      </span>
+    </div>
+
+    <button
+      class="toggle-btn"
+      type="button"
+      (click)="toggleSidebar()"
+    >
+      <i
+        class="bi"
+        [class.bi-chevron-left]="!isCollapsed"
+        [class.bi-chevron-right]="isCollapsed"
+      ></i>
+    </button>
+
+  </div>
+
+  <ul class="menu">
+
+    <li *ngFor="let item of menuItems; trackBy: trackByRoute">
+
+      <a
+        class="menu-item"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [title]="isCollapsed ? item.label : ''"
+      >
+        <i class="bi" [ngClass]="item.icon"></i>
+
+        <span *ngIf="!isCollapsed">
+          {{ item.label }}
+        </span>
+      </a>
+
+    </li>
+
+  </ul>
+
+</div>

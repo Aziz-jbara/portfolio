@@ -1,0 +1,222 @@
+<div class="transaction-wrapper">
+
+  <div class="transaction-card">
+
+    <!-- HEADER -->
+    <div class="transaction-header">
+      <a routerLink="/transactions-caisse" class="back-btn">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+
+      <div>
+        <h2>
+          {{ isEdit ? 'Modifier la transaction caisse' : 'Nouvelle transaction caisse' }}
+        </h2>
+        <p>Gestion des opérations de caisse</p>
+      </div>
+    </div>
+
+    <div class="row g-3">
+
+      <!-- LIBELLE -->
+      <div class="col-md-6">
+        <label>Libellé</label>
+        <input
+          class="form-input"
+          type="text"
+          [(ngModel)]="transaction.transactionscaisseLibelle"
+        >
+      </div>
+
+      <!-- MONTANT -->
+      <div class="col-md-6">
+        <label>Montant</label>
+        <input
+          type="number"
+          class="form-input"
+          [(ngModel)]="transaction.transactionscaisseMontant"
+        >
+      </div>
+
+      <!-- DATE -->
+      <div class="col-md-6">
+        <label>Date</label>
+        <input
+          type="date"
+          class="form-input"
+          [(ngModel)]="transaction.transactionscaisseDate"
+        >
+      </div>
+
+      <!-- NUM PIECE -->
+      <div class="col-md-6">
+        <label>Num pièce comptable</label>
+        <input
+          class="form-input"
+          type="text"
+          [(ngModel)]="transaction.transactionscaisseNumPieceComptable"
+        >
+      </div>
+
+      <!-- COMMENTAIRE -->
+      <div class="col-md-6">
+        <label>Commentaire</label>
+        <input
+          class="form-input"
+          type="text"
+          [(ngModel)]="transaction.transactionscaisseCommentaire"
+        >
+      </div>
+
+      <!-- SOLDE PROGRESSIF -->
+      <div class="col-md-6">
+        <label>Solde progressif</label>
+        <input
+          type="number"
+          class="form-input"
+          [(ngModel)]="transaction.transactionscaisseSoldeProgressif"
+        >
+      </div>
+
+      <!-- COMPTE -->
+      <div class="col-md-6">
+        <label>Compte courant associé</label>
+        <input
+          type="number"
+          class="form-input"
+          [(ngModel)]="transaction.transactionscaisseCompteCourantAssocie"
+        >
+      </div>
+
+      <!-- FACTURE CLIENT -->
+      <div class="col-md-6">
+        <label>Facture Client</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.factureClientId"
+          (ngModelChange)="onFactureClientChange()"
+        >
+          <option [ngValue]="0">
+            Sélectionner une Facture Client
+          </option>
+
+          <option
+            *ngFor="let f of facturesClient"
+            [ngValue]="f.facturesClientReference"
+          >
+            Facture N° {{ f.facturesClientNumero }}
+            -
+            {{ f.client?.clientsRaisonSocial ?? 'Client non défini' }}
+          </option>
+        </select>
+      </div>
+
+      <!-- FACTURE FOURNISSEUR -->
+      <div class="col-md-6">
+        <label>Facture Fournisseur</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.factureFrsId"
+          (ngModelChange)="onFactureFrsChange()"
+        >
+          <option [ngValue]="0">
+            Sélectionner une Facture Fournisseur
+          </option>
+
+          <option
+            *ngFor="let f of facturesFrs"
+            [ngValue]="f.facturesFRSReference"
+          >
+            Facture N° {{ f.facturesFRSNumero }}
+            -
+            {{ f.fournisseur?.fournisseurRaisonSocial ?? 'Fournisseur non défini' }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ETAT -->
+      <div class="col-md-6">
+        <label>État</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.etatId"
+        >
+          <option [ngValue]="0">
+            Sélectionner un état
+          </option>
+
+          <option
+            *ngFor="let e of etats"
+            [ngValue]="e.transactionsetatReference"
+          >
+            {{ e.transactionsetatLibelle }}
+          </option>
+        </select>
+      </div>
+
+      <!-- CATEGORIE -->
+      <div class="col-md-6">
+        <label>Catégorie</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.categorieId"
+        >
+          <option [ngValue]="0">
+            Sélectionner une Catégorie
+          </option>
+
+          <option
+            *ngFor="let c of categories"
+            [ngValue]="c.transactionscategorieReference"
+          >
+            {{ c.transactionscategorieLibelle }}
+          </option>
+        </select>
+      </div>
+
+      <!-- SENS -->
+      <div class="col-md-6">
+        <label>Sens</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.sensId"
+        >
+          <option [ngValue]="0">
+            Sélectionner un Sens
+          </option>
+
+          <option
+            *ngFor="let s of sensList"
+            [ngValue]="s.transactionsnatureReference"
+          >
+            {{ s.transactionsnatureLibelle }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="col-12 d-flex gap-2 mt-3">
+
+        <button
+          class="btn-save"
+          type="button"
+          (click)="save()"
+        >
+          <i class="bi bi-save me-2"></i>
+          {{ isEdit ? 'Modifier' : 'Enregistrer' }}
+        </button>
+
+        <a
+          routerLink="/transactions-caisse"
+          class="btn-cancel"
+        >
+          Annuler
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

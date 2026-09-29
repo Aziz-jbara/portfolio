@@ -1,0 +1,113 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div>
+      <h2>
+        <i class="bi bi-file-earmark-invoice"></i>
+        Factures Fournisseur
+      </h2>
+      <p>Gestion des dépenses et factures fournisseurs</p>
+    </div>
+
+   <div class="header-actions">
+  <a routerLink="/factures-frs/new" class="btn-primary btn-facture-fournisseur">
+    <i class="bi bi-plus-lg"></i>
+    Nouvelle facture fournisseur
+  </a>
+</div>
+
+  </div>
+
+  <!-- CARD -->
+  <div class="card">
+
+    <table>
+
+      <thead>
+        <tr>
+  <th>#</th>
+  <th>Numéro</th>
+  <th>Fournisseur</th>
+  <th>HT</th>
+  <th>TVA</th>
+  <th>TTC</th>
+  <th>Total</th>
+  <th>À Payer</th>
+  <th>Actions</th>
+</tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let f of factures">
+
+          <td class="muted">{{ f.facturesFRSReference }}</td>
+
+          <td class="strong">
+            {{ f.facturesFRSNumero }}
+          </td>
+          <td>
+            {{ f.fournisseur?.fournisseurRaisonSocial ?? '-' }}
+          </td>
+          <td>{{ f.facturesFRSHT | number:'1.2-2' }} DT</td>
+          <td>{{ f.facturesFRSTVA | number:'1.2-2' }} DT</td>
+
+          <td class="highlight">
+            {{ f.facturesFRSTTC | number:'1.2-2' }} DT
+          </td>
+
+          <td class="highlight strong">
+            {{ f.facturesFRSTotalFacture | number:'1.2-2' }} DT
+          </td>
+
+          <td>
+            <span class="badge danger">
+              {{ f.facturesFRSMontantAPayer | number:'1.2-2' }} DT
+            </span>
+          </td>
+
+          <td class="actions">
+
+  <a
+    [routerLink]="['/factures-frs/edit', f.facturesFRSReference]"
+    class="btn-action edit">
+
+    <i class="bi bi-pencil"></i>
+    Modifier
+  </a>
+
+  <button
+    class="btn-action pdf"
+    (click)="downloadPdf(f.facturesFRSReference)">
+
+    <i class="bi bi-file-earmark-pdf"></i>
+    PDF
+  </button>
+
+  <button
+    class="btn-action delete"
+    (click)="deleteFacture(f.facturesFRSReference)">
+
+    <i class="bi bi-trash"></i>
+    Effacer
+  </button>
+
+</td>
+
+        </tr>
+
+        <tr *ngIf="factures.length === 0">
+          <td colspan="8" class="empty">
+            Aucune facture trouvée
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

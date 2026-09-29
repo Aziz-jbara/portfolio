@@ -1,0 +1,144 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div>
+      <h2>
+        <i class="bi bi-cash-stack"></i>
+        Transactions Caisse
+      </h2>
+      <p>Gestion des mouvements de caisse</p>
+    </div>
+
+    <div class="header-actions">
+      <a routerLink="/transactions-caisse/new" class="btn-primary btn-caisse">
+        <i class="bi bi-plus-lg"></i>
+        Nouvelle transaction
+      </a>
+    </div>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="card">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Libellé</th>
+          <th>Date</th>
+          <th>Montant</th>
+          <th>Solde</th>
+          <th>Num Pièce</th>
+          <th>Facture</th>
+          <th>Tiers</th>
+          <th>État</th>
+          <th>Commentaire</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let t of transactions">
+
+          <td class="muted">
+            {{ t.transactionscaisseReference }}
+          </td>
+
+          <td class="strong">
+            {{ t.transactionscaisseLibelle }}
+          </td>
+
+          <td>
+            {{ t.transactionscaisseDate | date:'dd/MM/yyyy' }}
+          </td>
+
+          <td class="strong">
+            {{ t.transactionscaisseMontant | number:'1.2-2' }} DT
+          </td>
+
+          <td>
+            {{ t.transactionscaisseSoldeProgressif | number:'1.2-2' }} DT
+          </td>
+
+          <td>
+            {{ t.transactionscaisseNumPieceComptable || '-' }}
+          </td>
+
+          <!-- FACTURE CLIENT OR FOURNISSEUR -->
+          <td>
+            <span *ngIf="t.factureClient">
+              Facture Client N° {{ t.factureClient.facturesClientNumero }}
+            </span>
+
+            <span *ngIf="!t.factureClient && t.factureFrs">
+              Facture Fournisseur N° {{ t.factureFrs.facturesFRSNumero }}
+            </span>
+
+            <span *ngIf="!t.factureClient && !t.factureFrs">
+              -
+            </span>
+          </td>
+
+          <!-- CLIENT OR FOURNISSEUR -->
+          <td>
+            <span *ngIf="t.factureClient?.client">
+              {{ t.factureClient?.client?.clientsRaisonSocial }}
+            </span>
+
+            <span *ngIf="!t.factureClient && t.factureFrs?.fournisseur">
+              {{ t.factureFrs?.fournisseur?.fournisseurRaisonSocial }}
+            </span>
+
+            <span *ngIf="!t.factureClient?.client && !t.factureFrs?.fournisseur">
+              -
+            </span>
+          </td>
+
+          <!-- ETAT -->
+          <td>
+            {{ t.transactionEtat?.transactionsetatLibelle || '-' }}
+          </td>
+
+          <td>
+            {{ t.transactionscaisseCommentaire || '-' }}
+          </td>
+
+          <td class="actions">
+
+            <a
+              [routerLink]="['/transactions-caisse/edit', t.transactionscaisseReference]"
+              class="btn-action edit"
+            >
+              <i class="bi bi-pencil"></i>
+              Modifier
+            </a>
+
+            <button
+              class="btn-action delete"
+              type="button"
+              (click)="deleteTransaction(t.transactionscaisseReference)"
+            >
+              <i class="bi bi-trash"></i>
+              Effacer
+            </button>
+
+          </td>
+
+        </tr>
+
+        <tr *ngIf="transactions.length === 0">
+          <td colspan="11" class="empty">
+            Aucune transaction trouvée
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

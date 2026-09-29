@@ -1,0 +1,85 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div class="back-section">
+      <a routerLink="/fournisseurs" class="back-btn">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+
+      <div>
+        <h2>
+          {{ isEdit ? 'Modifier le fournisseur' : 'Nouveau fournisseur' }}
+        </h2>
+        <p>Gestion des partenaires fournisseurs</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="form-card">
+
+    <div class="grid">
+
+      <div class="form-group full">
+        <label>Raison Sociale</label>
+        <input type="text" [(ngModel)]="fournisseur.fournisseurRaisonSocial">
+      </div>
+
+      <div class="form-group full">
+        <label>Adresse</label>
+        <input type="text" [(ngModel)]="fournisseur.fournisseurAdresse">
+      </div>
+
+      <div class="form-group">
+        <label>Code Postal</label>
+        <input type="text" [(ngModel)]="fournisseur.fournisseurCodePostal">
+      </div>
+
+      <div class="form-group">
+        <label>Téléphone</label>
+        <input type="text" [(ngModel)]="fournisseur.fournisseurTelephone">
+      </div>
+
+      <div class="form-group">
+        <label>Code TVA</label>
+        <input type="text" [(ngModel)]="fournisseur.fournisseurCodeTVA">
+      </div>
+
+      <div class="form-group">
+        <label>Fax</label>
+        <input type="text" [(ngModel)]="fournisseur.fournisseursFax">
+      </div>
+
+      <div class="form-group">
+        <label>Gouvernorat</label>
+        <input type="text" [(ngModel)]="fournisseur.fournisseursGouvernorat">
+      </div>
+
+      <div class="form-group">
+        <label>Pays</label>
+        <input type="text" [(ngModel)]="fournisseur.fournisseursPays">
+      </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+
+      <button class="btn-primary success" (click)="save()">
+        <i class="bi bi-save"></i>
+        {{ isEdit ? 'Modifier' : 'Enregistrer' }}
+      </button>
+
+      <a routerLink="/fournisseurs" class="btn-secondary">
+        Annuler
+      </a>
+
+    </div>
+
+  </div>
+
+</div>

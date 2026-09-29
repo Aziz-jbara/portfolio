@@ -1,0 +1,82 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div>
+      <h2>
+        <i class="bi bi-people"></i>
+        Clients
+      </h2>
+      <p>Gestion des clients de votre système</p>
+    </div>
+
+    <div class="header-actions">
+  <a routerLink="/clients/new" class="btn-primary btn-clients">
+    <i class="bi bi-plus-lg"></i>
+    Nouveau client
+  </a>
+</div>
+
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="card">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Raison Sociale</th>
+          <th>Téléphone</th>
+          <th>Code TVA</th>
+          <th>Pays</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="clients.length != 0">
+
+        <tr *ngFor="let client of clients">
+
+          <td class="muted">{{ client.clientsReference }}</td>
+          <td class="strong">{{ client.clientsRaisonSocial }}</td>
+          <td>{{ client.clientsTelephone }}</td>
+          <td>{{ client.clientsCodeTVA }}</td>
+          <td>{{ client.clientsPays }}</td>
+
+          <div class="actions">
+
+  <a
+    [routerLink]="['/clients/edit', client.clientsReference]"
+    class="btn-action edit">
+
+    <i class="bi bi-pencil me-1"></i>
+    Modifier
+  </a>
+
+  <button
+    class="btn-action delete"
+    (click)="deleteClient(client.clientsReference)">
+
+    <i class="bi bi-trash me-1"></i>
+    Effacer
+  </button>
+
+</div>
+
+        </tr>
+
+        <tr *ngIf="clients.length === 0">
+          <td colspan="6" class="empty">
+            Aucun client trouvé
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

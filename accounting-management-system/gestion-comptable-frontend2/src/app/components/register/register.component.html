@@ -1,0 +1,136 @@
+<div class="auth-wrapper">
+  <div class="auth-left">
+
+    <div class="brand">
+      <div class="brand-logo-box">
+        <img
+          src="/comptax-logo.png"
+          alt="ComptaX Logo"
+          class="brand-logo"
+        >
+      </div>
+
+      <div>
+        <h1>
+          Compta<span>X</span>
+        </h1>
+        <p>Gestion Comptable</p>
+      </div>
+    </div>
+
+    <p class="tagline">
+      Rejoignez notre plateforme et gérez vos finances en toute simplicité.
+    </p>
+
+    <div class="features">
+
+      <div class="feature-item">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>Données sécurisées et protégées</span>
+      </div>
+
+      <div class="feature-item">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>Statistiques et rapports détaillés</span>
+      </div>
+
+      <div class="feature-item">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>Interface rapide et intuitive</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h2>Créer un compte ✨</h2>
+        <p>Rejoignez-nous en quelques secondes</p>
+      </div>
+
+      <div class="alert-error" *ngIf="error">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        {{ error }}
+      </div>
+
+      <div class="alert-success" *ngIf="success">
+        <i class="bi bi-check-circle-fill"></i>
+        {{ success }}
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom</label>
+          <div class="input-wrapper">
+            <i class="bi bi-person"></i>
+            <input
+              type="text"
+              [(ngModel)]="request.nom"
+              placeholder="Votre nom"
+              class="form-input"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Prénom</label>
+          <div class="input-wrapper">
+            <i class="bi bi-person"></i>
+            <input
+              type="text"
+              [(ngModel)]="request.prenom"
+              placeholder="Votre prénom"
+              class="form-input"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Adresse Email</label>
+        <div class="input-wrapper">
+          <i class="bi bi-envelope"></i>
+          <input
+            type="email"
+            [(ngModel)]="request.email"
+            placeholder="exemple@email.com"
+            class="form-input"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Téléphone</label>
+        <div class="input-wrapper">
+          <i class="bi bi-telephone"></i>
+          <input
+            type="text"
+            [(ngModel)]="request.telephone"
+            placeholder="+216 XX XXX XXX"
+            class="form-input"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <div class="input-wrapper">
+          <i class="bi bi-lock"></i>
+          <input
+            type="password"
+            [(ngModel)]="request.motDePasse"
+            placeholder="••••••••"
+            class="form-input"/>
+        </div>
+      </div>
+
+      <button class="btn-auth" (click)="register()">
+        <span>Créer mon compte</span>
+        <i class="bi bi-arrow-right-circle-fill"></i>
+      </button>
+
+      <p class="auth-footer">
+        Déjà un compte ?
+        <a routerLink="/login">Se connecter</a>
+      </p>
+    </div>
+  </div>
+</div>

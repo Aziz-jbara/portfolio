@@ -1,0 +1,249 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="back-section">
+      <a routerLink="/factures-client" class="back-btn">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+
+      <div>
+        <h2>
+          {{ isEdit ? 'Modifier la facture client' : 'Nouvelle facture client' }}
+        </h2>
+        <p>Gestion détaillée de la facture</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="form-card">
+
+    <!-- GENERAL INFO -->
+    <div class="section-title">Informations générales</div>
+
+    <div class="grid">
+
+      <div class="form-group">
+        <label>Numéro</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientNumero"
+        >
+      </div>
+
+      <!-- CLIENT -->
+      <div class="form-group">
+        <label>Client</label>
+        <select [(ngModel)]="facture.clientId">
+          <option [ngValue]="0">Sélectionner un client</option>
+
+          <option
+            *ngFor="let c of clients"
+            [ngValue]="c.clientsReference"
+          >
+            {{ c.clientsRaisonSocial }}
+          </option>
+        </select>
+      </div>
+
+      <!-- DEVISE -->
+      <div class="form-group">
+        <label>Devise</label>
+        <select [(ngModel)]="facture.deviseId">
+          <option [ngValue]="0">Sélectionner une devise</option>
+
+          <option
+            *ngFor="let d of devises"
+            [ngValue]="d.deviseReference"
+          >
+            {{ d.deviseLibelle }} ({{ d.deviseSymbole }})
+          </option>
+        </select>
+      </div>
+
+      <!-- CATEGORY -->
+      <div class="form-group">
+        <label>Catégorie</label>
+        <select [(ngModel)]="facture.categorieId">
+          <option [ngValue]="0">Sélectionner une catégorie</option>
+
+          <option
+            *ngFor="let cat of categories"
+            [ngValue]="cat.factureclientcategorieReference"
+          >
+            {{ cat.factureclientcategorieLibelle }}
+          </option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- FINANCIAL -->
+    <div class="section-title">Calculs financiers</div>
+
+    <div class="grid">
+
+      <div class="form-group">
+        <label>Montant Devise</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientMontantDevise"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Taux Change</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientTauxChange"
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>HT</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientHT"
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>TVA</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientTVA"
+          (ngModelChange)="calculateMontants()"
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>TTC</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientTTC"
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>Timbre</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientTimbre"
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>Total Facture</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientTotalFacture"
+          (ngModelChange)="calculateMontants()"
+        >
+      </div>
+
+    </div>
+
+    <!-- RETENUES AND PAYMENTS -->
+    <div class="section-title">Retenues & paiements</div>
+
+    <div class="grid">
+
+      <div class="form-group">
+        <label>RS TVA %</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientRSTVAPourcentage"
+          (ngModelChange)="calculateMontants()"
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>RS TVA</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientRSTVA"
+          readonly
+        >
+      </div>
+
+      <div class="form-group">
+        <label>RS %</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientRSPourcentage"
+          (ngModelChange)="calculateMontants()"
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>RS</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientRS"
+          readonly
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>RS Total</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientRSTotal"
+          readonly
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>Montant à Recevoir</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientMontantARecevoir"
+          readonly
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Montant Versé</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientMontantVerse"
+          (ngModelChange)="calculateMontants()"
+        >
+      </div>
+
+      <div class="form-group highlight">
+        <label>Écart</label>
+        <input
+          type="number"
+          [(ngModel)]="facture.facturesClientMontantEcart"
+          readonly
+        >
+      </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+
+      <button
+        class="btn-primary"
+        type="button"
+        (click)="save()"
+      >
+        <i class="bi bi-save"></i>
+        {{ isEdit ? 'Modifier' : 'Enregistrer' }}
+      </button>
+
+      <a
+        routerLink="/factures-client"
+        class="btn-secondary"
+      >
+        Annuler
+      </a>
+
+    </div>
+
+  </div>
+
+</div>

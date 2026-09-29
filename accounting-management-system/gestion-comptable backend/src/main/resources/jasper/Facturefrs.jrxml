@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="FactureFrs" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenNoDataType="AllSectionsNoDetail" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"><!-- ===== STYLES ===== -->
+	<style name="Title" fontName="Arial" fontSize="20.0" isBold="true" forecolor="#1A237E"/>
+	<style name="SectionTitle" fontName="Arial" fontSize="11.0" isBold="true" forecolor="#FFFFFF"/>
+	<style name="Label" fontName="Arial" fontSize="10.0" isBold="true" forecolor="#333333"/>
+	<style name="Value" fontName="Arial" fontSize="10.0" isBold="false" forecolor="#000000"/>
+	<style name="ValueBold" fontName="Arial" fontSize="10.0" isBold="true" forecolor="#000000"/>
+	<style name="TotalLabel" fontName="Arial" fontSize="11.0" isBold="true" forecolor="#1A237E"/>
+	<style name="TotalValue" fontName="Arial" fontSize="11.0" isBold="true" forecolor="#1A237E"/>
+	<style name="Footer" fontName="Arial" fontSize="9.0" isBold="false" forecolor="#666666"/>
+
+	<!-- ===== PARAMETERS ===== -->
+	<parameter name="facturesFRSReference" class="java.lang.Integer"/>
+	<parameter name="facturesFRSNumero" class="java.lang.String"/>
+	<parameter name="facturesFRSMontantDevise" class="java.lang.Double"/>
+	<parameter name="facturesFRSTauxChange" class="java.lang.Float"/>
+	<parameter name="facturesFRSHT" class="java.lang.Double"/>
+	<parameter name="facturesFRSTVAPourcentage" class="java.lang.Float"/>
+	<parameter name="facturesFRSTVA" class="java.lang.Float"/>
+	<parameter name="facturesFRSTTC" class="java.lang.Double"/>
+	<parameter name="facturesFRSTimbre" class="java.lang.Float"/>
+	<parameter name="facturesFRSTotalFacture" class="java.lang.Double"/>
+	<parameter name="facturesFRSRSPourcentage" class="java.lang.Float"/>
+	<parameter name="facturesFRSRSTotal" class="java.lang.Double"/>
+	<parameter name="facturesFRSMontantAPayer" class="java.lang.Double"/>
+	<parameter name="facturesFRSMontantPayee" class="java.lang.Double"/>
+	<parameter name="fournisseurNom" class="java.lang.String"/>
+	<parameter name="fournisseurReference" class="java.lang.Integer"/>
+	<parameter name="deviseCode" class="java.lang.String"/>
+	<parameter name="rsAttestationLibelle" class="java.lang.String"/>
+
+	<queryString language="sql"><![CDATA[]]></queryString>
+
+	<!-- ===== TITLE BAND ===== -->
+	<title>
+		<band height="90" splitType="Stretch">
+
+			<!-- Blue header bar -->
+			<rectangle><reportElement x="0" y="0" width="555" height="60" mode="Opaque" forecolor="#1A237E" backcolor="#1A237E"/><graphicElement/></rectangle><!-- Report title -->
+			<staticText><reportElement x="10" y="8" width="340" height="30" forecolor="#FFFFFF" style="Title"/><textElement><font size="20.0"/></textElement><text><![CDATA[FACTURE FOURNISSEUR]]></text>
+			</staticText><!-- Invoice number -->
+			<textField><reportElement x="10" y="38" width="340" height="18" forecolor="#BBDEFB" style="Value"/><textElement><font size="11.0"/></textElement><textFieldExpression><![CDATA["N° " + ($P{facturesFRSNumero} != null ? $P{facturesFRSNumero} : "-")]]></textFieldExpression>
+			</textField><!-- Reference box top-right -->
+			<rectangle><reportElement x="390" y="5" width="165" height="50" mode="Opaque" forecolor="#E3F2FD" backcolor="#E3F2FD"/><graphicElement/></rectangle><staticText><reportElement x="395" y="8" width="155" height="16" forecolor="#1A237E" style="Label"/><textElement><font size="9.0"/></textElement><text><![CDATA[Référence]]></text>
+		</staticText><textField><reportElement x="395" y="24" width="155" height="18" forecolor="#1A237E" style="Label"/><textElement><font size="13.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSReference}]]></textFieldExpression>
+		</textField><!-- Réf. Fournisseur -->
+			<staticText><reportElement x="395" y="58" width="80" height="14" forecolor="#1A237E" style="Label"/><textElement><font size="9.0"/></textElement><text><![CDATA[Réf. Fournisseur :]]></text>
+			</staticText><textField><reportElement x="480" y="58" width="75" height="14" forecolor="#1A237E" style="Value"/><textElement textAlignment="Right"><font size="9.0"/></textElement><textFieldExpression><![CDATA[$P{fournisseurReference} != null ? $P{fournisseurReference} : "-"]]></textFieldExpression>
+		</textField><!-- Date -->
+			<textField><reportElement x="390" y="75" width="165" height="15" forecolor="#666666" style="Footer"/><textElement textAlignment="Right"><font size="9.0"/></textElement><textFieldExpression><![CDATA["Date : " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField></band>
+	</title>
+
+	<!-- ===== PAGE HEADER ===== -->
+	<pageHeader>
+		<band height="8" splitType="Stretch">
+			<line><reportElement x="0" y="5" width="555" height="1"/><graphicElement><pen lineWidth="0.5" lineColor="#CCCCCC"/>
+			</graphicElement></line></band>
+	</pageHeader>
+
+	<!-- ===== DETAIL BAND ===== -->
+	<detail>
+		<band height="590" splitType="Stretch">
+
+			<!-- =========================================================== -->
+			<!-- SECTION 1 : INFORMATIONS FOURNISSEUR                        -->
+			<!-- =========================================================== -->
+			<rectangle><reportElement x="0" y="0" width="555" height="20" mode="Opaque" forecolor="#1A237E" backcolor="#1A237E"/><graphicElement/></rectangle><staticText><reportElement x="5" y="2" width="300" height="16" forecolor="#FFFFFF" style="SectionTitle"/><textElement><font size="10.0"/></textElement><text><![CDATA[INFORMATIONS FOURNISSEUR]]></text>
+		</staticText><!-- Fournisseur Name -->
+			<staticText><reportElement x="5" y="28" width="120" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[Fournisseur :]]></text>
+			</staticText><textField><reportElement x="130" y="28" width="280" height="16" style="Value"/><textElement><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{fournisseurNom} != null ? $P{fournisseurNom} : "-"]]></textFieldExpression>
+		</textField><!-- Devise -->
+			<staticText><reportElement x="5" y="48" width="120" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[Devise :]]></text>
+			</staticText><textField><reportElement x="130" y="48" width="200" height="16" style="Value"/><textElement><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{deviseCode} != null ? $P{deviseCode} : "-"]]></textFieldExpression>
+		</textField><!-- RS Attestation -->
+			<staticText><reportElement x="5" y="68" width="120" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[RS Attestation :]]></text>
+			</staticText><textField><reportElement x="130" y="68" width="280" height="16" style="Value"/><textElement><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{rsAttestationLibelle} != null ? $P{rsAttestationLibelle} : "-"]]></textFieldExpression>
+		</textField><!-- separator -->
+			<line><reportElement x="0" y="92" width="555" height="1"/><graphicElement><pen lineWidth="0.5" lineColor="#CCCCCC"/>
+			</graphicElement></line><!-- =========================================================== -->
+			<!-- SECTION 2 : MONTANTS DEVISE                                  -->
+			<!-- =========================================================== -->
+			<rectangle><reportElement x="0" y="100" width="555" height="20" mode="Opaque" forecolor="#1A237E" backcolor="#1A237E"/><graphicElement/></rectangle><staticText><reportElement x="5" y="102" width="300" height="16" forecolor="#FFFFFF" style="SectionTitle"/><textElement><font size="10.0"/></textElement><text><![CDATA[MONTANTS EN DEVISE]]></text>
+		</staticText><!-- Montant Devise -->
+			<staticText><reportElement x="5" y="128" width="200" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[Montant Devise :]]></text>
+			</staticText><textField pattern=" #,##0.000 'DT'" ><reportElement x="280" y="128" width="150" height="16" style="Value"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSMontantDevise}]]></textFieldExpression>
+		</textField><!-- Taux de change -->
+			<staticText><reportElement x="5" y="148" width="200" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[Taux de Change :]]></text>
+			</staticText><textField pattern="#,##0.0000"><reportElement x="280" y="148" width="150" height="16" style="Value"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSTauxChange}]]></textFieldExpression>
+		</textField><!-- separator -->
+			<line><reportElement x="0" y="172" width="555" height="1"/><graphicElement><pen lineWidth="0.5" lineColor="#CCCCCC"/>
+			</graphicElement></line><!-- =========================================================== -->
+			<!-- SECTION 3 : MONTANTS TND                                     -->
+			<!-- =========================================================== -->
+			<rectangle><reportElement x="0" y="180" width="555" height="20" mode="Opaque" forecolor="#1A237E" backcolor="#1A237E"/><graphicElement/></rectangle><staticText><reportElement x="5" y="182" width="300" height="16" forecolor="#FFFFFF" style="SectionTitle"/><textElement><font size="10.0"/></textElement><text><![CDATA[MONTANTS (TND)]]></text>
+		</staticText><!-- HT -->
+			<staticText><reportElement x="5" y="208" width="200" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[Montant HT :]]></text>
+			</staticText><textField pattern="#,##0.000 'DT'"><reportElement x="280" y="208" width="150" height="16" style="Value"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSHT}]]></textFieldExpression>
+		</textField><!-- TVA % -->
+			<staticText><reportElement x="5" y="228" width="200" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[TVA % :]]></text>
+			</staticText><textField pattern="#,##0.00 '%'"><reportElement x="280" y="228" width="150" height="16" style="Value"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSTVAPourcentage}]]></textFieldExpression>
+		</textField><!-- TVA -->
+			<staticText><reportElement x="5" y="248" width="200" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[TVA :]]></text>
+			</staticText><textField pattern="#,##0.000 'DT'"><reportElement x="280" y="248" width="150" height="16" style="Value"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSTVA}]]></textFieldExpression>
+		</textField><!-- TTC -->
+			<rectangle><reportElement x="0" y="268" width="555" height="20" mode="Opaque" forecolor="#E8EAF6" backcolor="#E8EAF6"/><graphicElement/></rectangle><staticText><reportElement x="5" y="270" width="200" height="16" style="TotalLabel"/><textElement><font size="10.0"/></textElement><text><![CDATA[Montant TTC :]]></text>
+		</staticText><textField pattern="#,##0.000 'DT'"><reportElement x="280" y="270" width="150" height="16" style="ValueBold"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSTTC}]]></textFieldExpression>
+		</textField><!-- Timbre -->
+			<staticText><reportElement x="5" y="298" width="200" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[Timbre :]]></text>
+			</staticText><textField pattern="#,##0.000 'DT'"><reportElement x="280" y="298" width="150" height="16" style="Value"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSTimbre}]]></textFieldExpression>
+		</textField><!-- Total Facture -->
+			<rectangle><reportElement x="0" y="318" width="555" height="22" mode="Opaque" forecolor="#1A237E" backcolor="#1A237E"/><graphicElement/></rectangle><staticText><reportElement x="5" y="321" width="200" height="16" forecolor="#FFFFFF" style="SectionTitle"/><textElement><font size="11.0"/></textElement><text><![CDATA[TOTAL FACTURE :]]></text>
+		</staticText><textField pattern="#,##0.000 'DT'"><reportElement x="280" y="321" width="150" height="16" forecolor="#FFFFFF" style="SectionTitle"/><textElement textAlignment="Right"><font size="11.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSTotalFacture}]]></textFieldExpression>
+		</textField><!-- separator -->
+			<line><reportElement x="0" y="350" width="555" height="1"/><graphicElement><pen lineWidth="0.5" lineColor="#CCCCCC"/>
+			</graphicElement></line><!-- =========================================================== -->
+			<!-- SECTION 4 : RETENUES À LA SOURCE (RS)                        -->
+			<!-- =========================================================== -->
+			<rectangle><reportElement x="0" y="358" width="555" height="20" mode="Opaque" forecolor="#1A237E" backcolor="#1A237E"/><graphicElement/></rectangle><staticText><reportElement x="5" y="360" width="350" height="16" forecolor="#FFFFFF" style="SectionTitle"/><textElement><font size="10.0"/></textElement><text><![CDATA[RETENUES À LA SOURCE (RS)]]></text>
+		</staticText><!-- RS % -->
+			<staticText><reportElement x="5" y="386" width="200" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[RS % :]]></text>
+			</staticText><textField pattern="#,##0.00 '%'"><reportElement x="280" y="386" width="150" height="16" style="Value"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSRSPourcentage}]]></textFieldExpression>
+		</textField><!-- RS Total -->
+			<rectangle><reportElement x="0" y="406" width="555" height="20" mode="Opaque" forecolor="#E8EAF6" backcolor="#E8EAF6"/><graphicElement/></rectangle><staticText><reportElement x="5" y="408" width="200" height="16" style="TotalLabel"/><textElement><font size="10.0"/></textElement><text><![CDATA[RS Total :]]></text>
+		</staticText><textField pattern="#,##0.000 'DT'"><reportElement x="280" y="408" width="150" height="16" style="TotalValue"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSRSTotal}]]></textFieldExpression>
+		</textField><!-- separator -->
+			<line><reportElement x="0" y="436" width="555" height="1"/><graphicElement><pen lineWidth="0.5" lineColor="#CCCCCC"/>
+			</graphicElement></line><!-- =========================================================== -->
+			<!-- SECTION 5 : RÈGLEMENT                                        -->
+			<!-- =========================================================== -->
+			<rectangle><reportElement x="0" y="444" width="555" height="20" mode="Opaque" forecolor="#1A237E" backcolor="#1A237E"/><graphicElement/></rectangle><staticText><reportElement x="5" y="446" width="300" height="16" forecolor="#FFFFFF" style="SectionTitle"/><textElement><font size="10.0"/></textElement><text><![CDATA[RÈGLEMENT]]></text>
+		</staticText><!-- À Payer -->
+			<staticText><reportElement x="5" y="472" width="200" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[À Payer :]]></text>
+			</staticText><textField pattern="#,##0.000 'DT'"><reportElement x="280" y="472" width="150" height="16" style="Value"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSMontantAPayer}]]></textFieldExpression>
+		</textField><!-- Payé -->
+			<staticText><reportElement x="5" y="492" width="200" height="16" style="Label"/><textElement><font size="10.0"/></textElement><text><![CDATA[Payé :]]></text>
+			</staticText><textField pattern="#,##0.000 'DT'"><reportElement x="280" y="492" width="150" height="16" style="Value"/><textElement textAlignment="Right"><font size="10.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSMontantPayee}]]></textFieldExpression>
+		</textField><!-- =========================================================== -->
+			<!-- DIVIDER BEFORE GRAND TOTAL                                   -->
+			<!-- =========================================================== -->
+			<line><reportElement x="0" y="525" width="555" height="1"/><graphicElement><pen lineWidth="1.0" lineColor="#1A237E"/>
+			</graphicElement></line><!-- NET À PAYER grand total box -->
+			<rectangle><reportElement x="0" y="532" width="555" height="28" mode="Opaque" forecolor="#1A237E" backcolor="#1A237E"/><graphicElement/></rectangle><staticText><reportElement x="10" y="536" width="250" height="20" forecolor="#FFFFFF" style="SectionTitle"/><textElement><font size="12.0"/></textElement><text><![CDATA[NET À PAYER :]]></text>
+		</staticText><textField pattern="#,##0.000 'DT'"><reportElement x="280" y="536" width="150" height="20" forecolor="#FFFFFF" style="SectionTitle"/><textElement textAlignment="Right"><font size="12.0"/></textElement><textFieldExpression><![CDATA[$P{facturesFRSMontantAPayer}]]></textFieldExpression>
+		</textField></band>
+	</detail>
+
+	<!-- ===== PAGE FOOTER ===== -->
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<line><reportElement x="0" y="0" width="555" height="1"/><graphicElement><pen lineWidth="0.5" lineColor="#CCCCCC"/>
+			</graphicElement></line><staticText><reportElement x="0" y="6" width="200" height="16" style="Footer"/><textElement><font size="8.0"/></textElement><text><![CDATA[Généré automatiquement - Application Comptabilité]]></text>
+		</staticText><textField><reportElement x="200" y="6" width="200" height="16" style="Footer"/><textElement textAlignment="Center"><font size="8.0"/></textElement><textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date())]]></textFieldExpression>
+		</textField><textField><reportElement x="430" y="6" width="125" height="16" style="Footer"/><textElement textAlignment="Right"><font size="8.0"/></textElement><textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " / " + $V{PAGE_COUNT}]]></textFieldExpression>
+		</textField></band>
+	</pageFooter>
+
+</jasperReport>

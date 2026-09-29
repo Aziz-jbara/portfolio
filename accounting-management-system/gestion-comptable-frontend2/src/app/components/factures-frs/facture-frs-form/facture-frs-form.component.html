@@ -1,0 +1,164 @@
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="page-header">
+
+      <div class="back-section">
+        <a routerLink="/factures-frs" class="back-btn">
+          <i class="bi bi-arrow-left"></i>
+        </a>
+
+        <div>
+          <h2>
+            {{ isEdit ? 'Modifier la facture fournisseur' : 'Nouvelle facture fournisseur' }}
+          </h2>
+          <p>Gestion des dépenses fournisseurs</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+
+      <!-- SECTION 1 -->
+      <div class="section-title">Informations générales</div>
+
+      <div class="grid">
+
+        <!-- NUMERO -->
+        <div class="form-group">
+          <label>Numéro</label>
+          <input type="text" [(ngModel)]="facture.facturesFRSNumero">
+        </div>
+
+        <!-- FOURNISSEUR DROPDOWN -->
+        <div class="form-group">
+          <label>Fournisseur</label>
+          <select [(ngModel)]="facture.fournisseurId">
+            <option [value]="0">Sélectionner fournisseur</option>
+
+            <option *ngFor="let f of fournisseurs" [value]="f.fournisseurReference">
+              {{ f.fournisseurRaisonSocial }} - {{ f.fournisseurTelephone }}
+            </option>
+          </select>
+        </div>
+
+        <!-- DEVISE DROPDOWN -->
+        <div class="form-group">
+          <label>Devise</label>
+          <select [(ngModel)]="facture.deviseId">
+            <option [value]="0">Sélectionner devise</option>
+
+            <option *ngFor="let d of devises" [value]="d.deviseReference">
+              {{ d.deviseLibelle }} ({{ d.deviseSymbole }})
+            </option>
+          </select>
+        </div>
+
+        <!-- RS ATT DROPDOWN -->
+        <div class="form-group">
+          <label>RS Attestation</label>
+          <select [(ngModel)]="facture.rsAttestationId">
+            <option [value]="0">Sélectionner RS</option>
+
+            <option *ngFor="let r of rsList" [value]="r.rsattestationrecupereReference">
+              {{ r.rsattestationrecupereLibelle }}
+            </option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- SECTION 2 -->
+      <div class="section-title">Montants & conversion</div>
+
+      <div class="grid">
+
+        <div class="form-group">
+          <label>Montant Devise</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSMontantDevise">
+        </div>
+
+        <div class="form-group">
+          <label>Taux Change</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSTauxChange">
+        </div>
+
+        <div class="form-group highlight">
+          <label>HT</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSHT">
+        </div>
+
+        <div class="form-group highlight">
+          <label>TVA %</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSTVAPourcentage">
+        </div>
+
+        <div class="form-group highlight">
+          <label>TVA</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSTVA">
+        </div>
+
+        <div class="form-group highlight">
+          <label>TTC</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSTTC">
+        </div>
+
+        <div class="form-group highlight">
+          <label>Total Facture</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSTotalFacture">
+        </div>
+
+      </div>
+
+      <!-- SECTION 3 -->
+      <div class="section-title">Retenues & paiements</div>
+
+      <div class="grid">
+
+        <div class="form-group">
+          <label>RS %</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSRSPourcentage">
+        </div>
+
+        <div class="form-group highlight">
+          <label>RS Total</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSRSTotal">
+        </div>
+
+        <div class="form-group highlight">
+          <label>Montant à Payer</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSMontantAPayer">
+        </div>
+
+        <div class="form-group">
+          <label>Montant Payé</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSMontantPayee">
+        </div>
+
+        <div class="form-group">
+          <label>Timbre</label>
+          <input type="number" [(ngModel)]="facture.facturesFRSTimbre">
+        </div>
+
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="actions">
+
+        <button class="btn-primary danger" (click)="save()">
+          <i class="bi bi-save"></i>
+          {{ isEdit ? 'Modifier' : 'Enregistrer' }}
+        </button>
+
+        <a routerLink="/factures-frs" class="btn-secondary">
+          Annuler
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>

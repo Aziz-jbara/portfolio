@@ -1,0 +1,145 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div>
+      <h2>
+        <i class="bi bi-bank"></i>
+        Transactions Banque
+      </h2>
+      <p>Gestion des opérations bancaires</p>
+    </div>
+
+    <div class="header-actions">
+      <a routerLink="/transactions-banque/new" class="btn-primary btn-banque">
+        <i class="bi bi-plus-lg"></i>
+        Nouvelle transaction
+      </a>
+    </div>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="card">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Libellé</th>
+          <th>Date Réelle</th>
+          <th>Date Opération</th>
+          <th>Montant</th>
+          <th>Facture</th>
+          <th>Tiers</th>
+          <th>Type</th>
+          <th>État</th>
+          <th>Commentaire</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let t of transactions">
+
+          <td class="muted">
+            {{ t.transactionsbanqueReference }}
+          </td>
+
+          <td class="strong">
+            {{ t.transactionsbanqueLibelle }}
+          </td>
+
+          <td>
+            {{ t.transactionsbanqueDateReelle | date:'dd/MM/yyyy' }}
+          </td>
+
+          <td>
+            {{ t.transactionsbanqueDateOperation | date:'dd/MM/yyyy' }}
+          </td>
+
+          <td class="strong">
+            {{ t.transactionsbanqueMontant | number:'1.2-2' }} DT
+          </td>
+
+          <!-- FACTURE CLIENT OR FOURNISSEUR -->
+          <td>
+            <span *ngIf="t.factureClient">
+              Facture Client N° {{ t.factureClient.facturesClientNumero }}
+            </span>
+
+            <span *ngIf="!t.factureClient && t.factureFrs">
+              Facture Fournisseur N° {{ t.factureFrs.facturesFRSNumero }}
+            </span>
+
+            <span *ngIf="!t.factureClient && !t.factureFrs">
+              -
+            </span>
+          </td>
+
+          <!-- CLIENT OR FOURNISSEUR -->
+          <td>
+            <span *ngIf="t.factureClient?.client">
+              {{ t.factureClient?.client?.clientsRaisonSocial }}
+            </span>
+
+            <span *ngIf="!t.factureClient && t.factureFrs?.fournisseur">
+              {{ t.factureFrs?.fournisseur?.fournisseurRaisonSocial }}
+            </span>
+
+            <span *ngIf="!t.factureClient?.client && !t.factureFrs?.fournisseur">
+              -
+            </span>
+          </td>
+
+          <!-- TRANSACTION TYPE -->
+          <td>
+            {{ t.transactionBanqueType?.transactionbanquetypesLibelle || '-' }}
+          </td>
+
+          <!-- ETAT -->
+          <td>
+            {{ t.transactionEtat?.transactionsetatLibelle || '-' }}
+          </td>
+
+          <td>
+            {{ t.transactionsbanqueCommentaire || '-' }}
+          </td>
+
+          <td class="actions">
+
+            <a
+              [routerLink]="['/transactions-banque/edit', t.transactionsbanqueReference]"
+              class="btn-action edit"
+            >
+              <i class="bi bi-pencil"></i>
+              Modifier
+            </a>
+
+            <button
+              class="btn-action delete"
+              type="button"
+              (click)="deleteTransaction(t.transactionsbanqueReference)"
+            >
+              <i class="bi bi-trash"></i>
+              Effacer
+            </button>
+
+          </td>
+
+        </tr>
+
+        <tr *ngIf="transactions.length === 0">
+          <td colspan="11" class="empty">
+            Aucune transaction trouvée
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

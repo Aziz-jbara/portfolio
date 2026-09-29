@@ -1,0 +1,246 @@
+<div class="transaction-wrapper">
+
+  <div class="transaction-card">
+
+    <!-- HEADER -->
+    <div class="transaction-header">
+      <a routerLink="/transactions-banque" class="back-btn">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+
+      <div>
+        <h2>
+          {{ isEdit ? 'Modifier la transaction bancaire' : 'Nouvelle transaction bancaire' }}
+        </h2>
+        <p>Gestion des opérations bancaires</p>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="row g-3">
+
+      <div class="col-md-6">
+        <label>Libellé</label>
+        <input
+          class="form-input"
+          type="text"
+          [(ngModel)]="transaction.transactionsbanqueLibelle"
+        >
+      </div>
+
+      <div class="col-md-6">
+        <label>Montant</label>
+        <input
+          class="form-input"
+          type="number"
+          [(ngModel)]="transaction.transactionsbanqueMontant"
+        >
+      </div>
+
+      <div class="col-md-6">
+        <label>Date Réelle</label>
+        <input
+          class="form-input"
+          type="date"
+          [(ngModel)]="transaction.transactionsbanqueDateReelle"
+        >
+      </div>
+
+      <div class="col-md-6">
+        <label>Date Opération</label>
+        <input
+          class="form-input"
+          type="date"
+          [(ngModel)]="transaction.transactionsbanqueDateOperation"
+        >
+      </div>
+
+      <div class="col-md-6">
+        <label>Numéro Type</label>
+        <input
+          class="form-input"
+          type="text"
+          [(ngModel)]="transaction.transactionsbanqueNumeroDeType"
+        >
+      </div>
+
+      <div class="col-md-6">
+        <label>Commentaire</label>
+        <input
+          class="form-input"
+          type="text"
+          [(ngModel)]="transaction.transactionsbanqueCommentaire"
+        >
+      </div>
+
+      <!-- RELEVE -->
+      <div class="col-md-4">
+        <label>Relevé</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.releveId"
+        >
+          <option [ngValue]="0">
+            Sélectionner un Relevé
+          </option>
+
+          <option
+            *ngFor="let r of releves"
+            [ngValue]="r.transactionsreleveReference"
+          >
+            {{ r.transactionsreleveMois }}
+            {{ r.transactionsreleveAnnee }}
+          </option>
+        </select>
+      </div>
+
+      <!-- FACTURE CLIENT -->
+      <div class="col-md-4">
+        <label>Facture Client</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.factureClientId"
+          (ngModelChange)="onFactureClientChange()"
+        >
+          <option [ngValue]="0">
+            Sélectionner une Facture Client
+          </option>
+
+          <option
+            *ngFor="let f of facturesClient"
+            [ngValue]="f.facturesClientReference"
+          >
+            Facture N° {{ f.facturesClientNumero }}
+            -
+            {{ f.client?.clientsRaisonSocial ?? 'Client non défini' }}
+          </option>
+        </select>
+      </div>
+
+      <!-- FACTURE FOURNISSEUR -->
+      <div class="col-md-4">
+        <label>Facture Fournisseur</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.factureFrsId"
+          (ngModelChange)="onFactureFrsChange()"
+        >
+          <option [ngValue]="0">
+            Sélectionner une Facture Fournisseur
+          </option>
+
+          <option
+            *ngFor="let f of facturesFrs"
+            [ngValue]="f.facturesFRSReference"
+          >
+            Facture N° {{ f.facturesFRSNumero }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ETAT -->
+      <div class="col-md-4">
+        <label>État</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.etatId"
+        >
+          <option [ngValue]="0">
+            Sélectionner un Etat
+          </option>
+
+          <option
+            *ngFor="let e of etats"
+            [ngValue]="e.transactionsetatReference"
+          >
+            {{ e.transactionsetatLibelle }}
+          </option>
+        </select>
+      </div>
+
+      <!-- CATEGORIE -->
+      <div class="col-md-4">
+        <label>Catégorie</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.categorieId"
+        >
+          <option [ngValue]="0">
+            Sélectionner une Catégorie
+          </option>
+
+          <option
+            *ngFor="let c of categories"
+            [ngValue]="c.transactionscategorieReference"
+          >
+            {{ c.transactionscategorieLibelle }}
+          </option>
+        </select>
+      </div>
+
+      <!-- SENS -->
+      <div class="col-md-4">
+        <label>Sens</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.sensId"
+        >
+          <option [ngValue]="0">
+            Sélectionner un Sens
+          </option>
+
+          <option
+            *ngFor="let s of sensList"
+            [ngValue]="s.transactionsnatureReference"
+          >
+            {{ s.transactionsnatureLibelle }}
+          </option>
+        </select>
+      </div>
+
+      <!-- TYPE -->
+      <div class="col-md-4">
+        <label>Type</label>
+        <select
+          class="form-input"
+          [(ngModel)]="transaction.typeId"
+        >
+          <option [ngValue]="0">
+            Sélectionner un Type
+          </option>
+
+          <option
+            *ngFor="let t of types"
+            [ngValue]="t.transactionbanquetypesReference"
+          >
+            {{ t.transactionbanquetypesLibelle }}
+          </option>
+        </select>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="col-12 d-flex gap-2 mt-3">
+
+        <button
+          class="btn-save"
+          type="button"
+          (click)="save()"
+        >
+          <i class="bi bi-save me-2"></i>
+          {{ isEdit ? 'Modifier' : 'Enregistrer' }}
+        </button>
+
+        <a
+          routerLink="/transactions-banque"
+          class="btn-cancel"
+        >
+          Annuler
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,8 @@
+<ng-container *ngIf="isLoggedIn">
+  <app-navbar></app-navbar>
+  <app-sidebar></app-sidebar>
+</ng-container>
+
+<div [class.main-content]="isLoggedIn">
+  <router-outlet></router-outlet>
+</div>

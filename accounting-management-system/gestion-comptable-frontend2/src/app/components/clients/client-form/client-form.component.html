@@ -1,0 +1,85 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div class="back-section">
+      <a routerLink="/clients" class="back-btn">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+
+      <div>
+        <h2>
+          {{ isEdit ? 'Modifier le client' : 'Nouveau client' }}
+        </h2>
+        <p>Remplissez les informations du client</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="form-card">
+
+    <div class="grid">
+
+      <div class="form-group">
+        <label>Raison Sociale</label>
+        <input type="text" [(ngModel)]="client.clientsRaisonSocial">
+      </div>
+
+      <div class="form-group">
+        <label>Adresse</label>
+        <input type="text" [(ngModel)]="client.clientsAdresse">
+      </div>
+
+      <div class="form-group">
+        <label>Code Postal</label>
+        <input type="text" [(ngModel)]="client.clientsCodePostal">
+      </div>
+
+      <div class="form-group">
+        <label>Téléphone</label>
+        <input type="text" [(ngModel)]="client.clientsTelephone">
+      </div>
+
+      <div class="form-group">
+        <label>Code TVA</label>
+        <input type="text" [(ngModel)]="client.clientsCodeTVA">
+      </div>
+
+      <div class="form-group">
+        <label>Fax</label>
+        <input type="text" [(ngModel)]="client.clientsFax">
+      </div>
+
+      <div class="form-group">
+        <label>Gouvernorat</label>
+        <input type="text" [(ngModel)]="client.clientsGouvernorat">
+      </div>
+
+      <div class="form-group">  
+        <label>Pays</label>
+        <input type="text" [(ngModel)]="client.clientsPays">
+      </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+
+      <button class="btn-primary" (click)="save()">
+        <i class="bi bi-save"></i>
+        {{ isEdit ? 'Modifier' : 'Enregistrer' }}
+      </button>
+
+      <a routerLink="/clients" class="btn-secondary">
+        Annuler
+      </a>
+
+    </div>
+
+  </div>
+
+</div>

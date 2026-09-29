@@ -1,0 +1,382 @@
+<div class="dashboard-wrapper">
+
+  <!-- HEADER -->
+  <div class="dashboard-header">
+
+    <div>
+      <div class="eyebrow">
+        <i class="bi bi-grid-1x2-fill"></i>
+        Accounting Dashboard
+      </div>
+
+      <h2>
+        Tableau de bord
+      </h2>
+
+      <p>
+        Vue globale des ventes, achats, encaissements, paiements et transactions.
+      </p>
+    </div>
+
+    <button
+      class="refresh-btn"
+      type="button"
+      (click)="refresh()"
+      [disabled]="isLoading"
+    >
+      <i class="bi bi-arrow-clockwise"></i>
+      Actualiser
+    </button>
+
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-card" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <div>
+      <h3>Chargement du dashboard...</h3>
+      <p>Préparation des statistiques comptables.</p>
+    </div>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-card" *ngIf="!isLoading && hasError">
+    <i class="bi bi-exclamation-triangle"></i>
+    <div>
+      <h3>Erreur de chargement</h3>
+      <p>Impossible de charger les données du tableau de bord.</p>
+    </div>
+    <button type="button" (click)="refresh()">Réessayer</button>
+  </div>
+
+  <ng-container *ngIf="!isLoading && !hasError">
+
+    <!-- TOP KPI CARDS -->
+    <div class="kpi-grid">
+
+      <a routerLink="/clients" class="kpi-card blue">
+        <div class="kpi-icon">
+          <i class="bi bi-people"></i>
+        </div>
+        <div>
+          <p>Clients</p>
+          <h3>{{ metrics.totalClients }}</h3>
+          <span>Total clients enregistrés</span>
+        </div>
+      </a>
+
+      <a routerLink="/fournisseurs" class="kpi-card green">
+        <div class="kpi-icon">
+          <i class="bi bi-truck"></i>
+        </div>
+        <div>
+          <p>Fournisseurs</p>
+          <h3>{{ metrics.totalFournisseurs }}</h3>
+          <span>Total fournisseurs</span>
+        </div>
+      </a>
+
+      <a routerLink="/factures-client" class="kpi-card indigo">
+        <div class="kpi-icon">
+          <i class="bi bi-file-earmark-text"></i>
+        </div>
+        <div>
+          <p>Factures Client</p>
+          <h3>{{ metrics.totalFacturesClient }}</h3>
+          <span>{{ formatMoney(metrics.chiffreAffaires) }}</span>
+        </div>
+      </a>
+
+      <a routerLink="/factures-frs" class="kpi-card orange">
+        <div class="kpi-icon">
+          <i class="bi bi-file-earmark-invoice"></i>
+        </div>
+        <div>
+          <p>Factures Fournisseur</p>
+          <h3>{{ metrics.totalFacturesFrs }}</h3>
+          <span>{{ formatMoney(metrics.totalAchats) }}</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- FINANCIAL SUMMARY -->
+    <div class="finance-grid">
+
+      <div class="finance-card revenue">
+        <div class="finance-top">
+          <div>
+            <p>Chiffre d'affaires</p>
+            <h3>{{ formatMoney(metrics.chiffreAffaires) }}</h3>
+          </div>
+          <i class="bi bi-graph-up-arrow"></i>
+        </div>
+        <div class="progress-info">
+          <span>Taux d'encaissement</span>
+          <strong>{{ metrics.tauxEncaissement }}%</strong>
+        </div>
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            [style.width.%]="metrics.tauxEncaissement"
+          ></div>
+        </div>
+      </div>
+
+      <div class="finance-card expense">
+        <div class="finance-top">
+          <div>
+            <p>Total achats</p>
+            <h3>{{ formatMoney(metrics.totalAchats) }}</h3>
+          </div>
+          <i class="bi bi-cart-check"></i>
+        </div>
+        <div class="progress-info">
+          <span>Taux de paiement</span>
+          <strong>{{ metrics.tauxPaiement }}%</strong>
+        </div>
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            [style.width.%]="metrics.tauxPaiement"
+          ></div>
+        </div>
+      </div>
+
+      <div class="finance-card receive">
+        <div class="finance-top">
+          <div>
+            <p>À recevoir</p>
+            <h3>{{ formatMoney(metrics.totalARecevoir) }}</h3>
+          </div>
+          <i class="bi bi-wallet2"></i>
+        </div>
+        <div class="mini-info">
+          <span>Factures non encaissées</span>
+          <strong>{{ metrics.facturesClientNonPayees }}</strong>
+        </div>
+      </div>
+
+      <div class="finance-card pay">
+        <div class="finance-top">
+          <div>
+            <p>À payer</p>
+            <h3>{{ formatMoney(metrics.totalAPayer) }}</h3>
+          </div>
+          <i class="bi bi-credit-card"></i>
+        </div>
+        <div class="mini-info">
+          <span>Factures fournisseur ouvertes</span>
+          <strong>{{ metrics.facturesFrsNonPayees }}</strong>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CASH BALANCE STRIP -->
+    <div class="balance-strip">
+
+      <div>
+        <p>Encaissements</p>
+        <h3 class="positive">{{ formatMoney(metrics.totalEncaisse) }}</h3>
+      </div>
+
+      <div>
+        <p>Décaissements</p>
+        <h3 class="negative">{{ formatMoney(metrics.totalDecaisse) }}</h3>
+      </div>
+
+      <div>
+        <p>Solde net</p>
+        <h3 [class.positive]="metrics.soldeNet >= 0" [class.negative]="metrics.soldeNet < 0">
+          {{ formatMoney(metrics.soldeNet) }}
+        </h3>
+      </div>
+
+      <div>
+        <p>Résultat facturation</p>
+        <h3
+          [class.positive]="metrics.resultatFacturation >= 0"
+          [class.negative]="metrics.resultatFacturation < 0"
+        >
+          {{ formatMoney(metrics.resultatFacturation) }}
+        </h3>
+      </div>
+
+    </div>
+
+    <!-- CHARTS -->
+    <div class="charts-grid">
+
+      <div class="chart-card wide">
+        <div class="card-title">
+          <div>
+            <h3>Cashflow mensuel</h3>
+            <p>Recettes vs dépenses par mois</p>
+          </div>
+          <span class="tag blue-tag">Année courante</span>
+        </div>
+
+        <div class="chart-box large">
+          <canvas #cashflowChart></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="card-title">
+          <div>
+            <h3>Facturation</h3>
+            <p>Encaissements et paiements</p>
+          </div>
+        </div>
+
+        <div class="chart-box">
+          <canvas #invoiceChart></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="card-title">
+          <div>
+            <h3>Banque / Caisse</h3>
+            <p>Origine des mouvements</p>
+          </div>
+        </div>
+
+        <div class="chart-box">
+          <canvas #transactionChart></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card wide">
+        <div class="card-title">
+          <div>
+            <h3>Top clients</h3>
+            <p>Classement par chiffre d'affaires</p>
+          </div>
+          <a routerLink="/factures-client" class="small-link">
+            Voir factures
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="chart-box large">
+          <canvas #topClientsChart></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM SECTION -->
+    <div class="bottom-grid">
+
+      <!-- LATEST TRANSACTIONS -->
+      <div class="table-card">
+        <div class="card-title">
+          <div>
+            <h3>Dernières transactions</h3>
+            <p>Banque et caisse</p>
+          </div>
+          <div class="table-actions">
+            <a routerLink="/transactions-banque">Banque</a>
+            <a routerLink="/transactions-caisse">Caisse</a>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Libellé</th>
+                <th>Date</th>
+                <th>Facture</th>
+                <th>Tiers</th>
+                <th>Montant</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let t of latestTransactions; trackBy: trackByIndex"
+              >
+                <td>
+                  <span
+                    class="source-pill"
+                    [class.bank]="t.source === 'Banque'"
+                    [class.cash]="t.source === 'Caisse'"
+                  >
+                    {{ t.source }}
+                  </span>
+                </td>
+
+                <td class="strong">
+                  {{ t.libelle }}
+                </td>
+
+                <td>
+                  {{ t.date | date:'dd/MM/yyyy' }}
+                </td>
+
+                <td>
+                  {{ t.facture }}
+                </td>
+
+                <td>
+                  {{ t.tiers }}
+                </td>
+
+                <td
+                  class="amount"
+                  [class.positive]="t.type === 'Recette'"
+                  [class.negative]="t.type === 'Dépense'"
+                >
+                  {{ formatMoney(t.montant) }}
+                </td>
+              </tr>
+
+              <tr *ngIf="latestTransactions.length === 0">
+                <td colspan="6" class="empty">
+                  Aucune transaction trouvée
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TOP FOURNISSEURS -->
+      <div class="side-card">
+        <div class="card-title">
+          <div>
+            <h3>Top fournisseurs</h3>
+            <p>Par volume d'achat</p>
+          </div>
+        </div>
+
+        <div class="ranking-list">
+          <div
+            class="ranking-item"
+            *ngFor="let item of topFournisseurs; let i = index; trackBy: trackByIndex"
+          >
+            <div class="rank">
+              {{ i + 1 }}
+            </div>
+
+            <div class="rank-content">
+              <strong>{{ item.label }}</strong>
+              <span>{{ formatMoney(item.value) }}</span>
+            </div>
+          </div>
+
+          <div class="empty-side" *ngIf="topFournisseurs.length === 0">
+            Aucun fournisseur trouvé
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>

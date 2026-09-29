@@ -1,0 +1,110 @@
+.page {
+  padding: 30px;
+  background: #f0f2f5;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.page-header {
+  margin-bottom: 20px;
+}
+
+.back-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.back-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  text-decoration: none;
+}
+
+/* CARD */
+.form-card {
+  background: white;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+.section-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #6366f1;
+  margin: 20px 0 15px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* FORM */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+input, select {
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: #f9fafb;
+  transition: 0.2s;
+}
+
+input:focus, select:focus {
+  border-color: #ef4444;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(239,68,68,0.08);
+}
+
+/* ACTIONS */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+/* BUTTONS */
+.btn-primary {
+  padding: 10px 16px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: none;
+}
+
+.btn-primary.danger {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+}
+
+.btn-secondary {
+  border: 2px solid #e5e7eb;
+  padding: 10px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #6b7280;
+}

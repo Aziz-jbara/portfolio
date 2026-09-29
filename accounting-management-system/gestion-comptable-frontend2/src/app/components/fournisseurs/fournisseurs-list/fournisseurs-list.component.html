@@ -1,0 +1,82 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div>
+      <h2>
+        <i class="bi bi-truck"></i>
+        Fournisseurs
+      </h2>
+      <p>Gestion des fournisseurs de votre système</p>
+    </div>
+
+    <div class="header-actions">
+      <a routerLink="/fournisseurs/new" class="btn-primary btn-fournisseurs">
+        <i class="bi bi-plus-lg"></i>
+        Nouveau fournisseur
+      </a>
+    </div>
+
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="card">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Raison Sociale</th>
+          <th>Téléphone</th>
+          <th>Code TVA</th>
+          <th>Pays</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let f of fournisseurs">
+
+          <td class="muted">{{ f.fournisseurReference }}</td>
+          <td class="strong">{{ f.fournisseurRaisonSocial }}</td>
+          <td>{{ f.fournisseurTelephone }}</td>
+          <td>{{ f.fournisseurCodeTVA }}</td>
+          <td>{{ f.fournisseursPays }}</td>
+
+          <td>
+
+  <a
+    [routerLink]="['/fournisseurs/edit', f.fournisseurReference]"
+    class="btn-action edit">
+
+    <i class="bi bi-pencil"></i>
+    Modifier
+  </a>
+
+  <button
+    class="btn-action delete"
+    (click)="deleteFournisseur(f.fournisseurReference)">
+
+    <i class="bi bi-trash"></i>
+    Effacer
+  </button>
+
+</td>
+
+        </tr>
+
+        <tr *ngIf="fournisseurs.length === 0">
+          <td colspan="6" class="empty">
+            Aucun fournisseur trouvé
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
